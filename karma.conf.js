@@ -63,7 +63,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/*.js': ['coverage']
+      'src/*.js': ['coverage'],
+      '**/*.html': ['ng-html2js']
     },
 
 
@@ -110,6 +111,19 @@ module.exports = function(config) {
         { type: 'html', subdir: 'report-html' },
         { type: 'lcovonly', subdir: '.', file: 'lcov.info' },
       ]
+    },
+
+    ngHtml2JsPreprocessor: {
+      cacheIdFromPath: function(filepath) {
+        // remove version name
+        if(filepath.includes('opener')){
+          return 'tests/opener.html'
+        }
+        return filepath;
+      },
+
+      //must load module
+      moduleName: 'opener_html'
     }
   });
 

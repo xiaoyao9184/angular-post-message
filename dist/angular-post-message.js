@@ -1,6 +1,6 @@
 /*!
-* angular-post-message v1.4.0
-* Copyright 2016 Kyle Welsby <kyle@mekyle.com>
+* angular-post-message v1.4.1
+* Copyright 2019 Kyle Welsby <kyle@mekyle.com>
 * Licensed under The MIT License
 */
 (function() {
@@ -13,12 +13,13 @@
     '$window', '$postMessage', '$rootScope',
     function($window, $postMessage, $rootScope) {
 
-      $rootScope.$on('$messageOutgoing', function(event, message, domain) {
-        var sender;
-        if (domain == null) {
+      $rootScope.$on('$messageOutgoing', function(event, message, domain, sender) {
+        if (!domain) {
           domain = "*";
         }
-        sender = $rootScope.sender || $window.parent;
+        if (!sender){
+          sender = $rootScope.sender || $window.opener || $window.parent;
+        }
         return sender.postMessage(message, domain);
       });
 
@@ -58,11 +59,8 @@
         lastMessage: function() {
           return $messages[$messages.length - 1];
         },
-        post: function(message, domain) {
-          if (!domain) {
-            domain = "*";
-          }
-          return $rootScope.$broadcast('$messageOutgoing', message, domain);
+        post: function(message, domain, sender) {
+          return $rootScope.$broadcast('$messageOutgoing', message, domain, sender);
         }
       };
       return api;

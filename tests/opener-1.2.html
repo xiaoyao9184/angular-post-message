@@ -1,0 +1,22 @@
+<html ng-app="app">
+  <head>
+    <script src="base/bower_components/angular-1.2/angular.js"></script>
+    <script src="base/src/angular-post-message.js"></script>
+    <script>
+        var app = angular.module('app',['ngPostMessage']);
+        app.controller('MainCtrl', function($scope) {
+            $scope.$emit('$messageOutgoing',
+                angular.toJson({"to":"opener", "msg":"hi"})
+            );
+        });
+    </script>
+  </head>
+
+  <body ng-controller="MainCtrl">
+      Will send massage to opener
+  </body>
+
+  <script>
+    angular.bootstrap(document,['app'],{strictDi: false});
+  </script>
+</html>

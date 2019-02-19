@@ -6,6 +6,7 @@ module.exports = function(config) {
     'src/*.js',
     'bower_components/angular-mocks-1.3/angular-mocks.js',
     'tests/_helper.js',
-    'tests/*.js'
+    'tests/*.js',
+    'tests/opener-1.3.html'
   ];
 };
